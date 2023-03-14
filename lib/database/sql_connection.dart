@@ -2,17 +2,17 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqlConnection {
-  Future<void> openConnection() async {
+  Future<Database> openConnection() async {
     final databasePath = await getDatabasesPath();
     final databaseFinalPath = join(databasePath, 'SQLITE_EXAMPLE');
 
-    await openDatabase(
+    return await openDatabase(
       databaseFinalPath,
       version: 3,
       // executado toda vez que o banco for aberto
       // sempre que for alterado
       onConfigure: (db) async {
-        await db.execute('''''');
+        await db.execute('PRAGMA foreign_keys = ON');
       },
       // onCreate -> só é chamado no momento de criação do db
       // só é rodado quando o aplicativo é carregado a primeira vez
